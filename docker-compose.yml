@@ -1,0 +1,50 @@
+version: "3.8"
+services:
+  scraper_news:
+    build:
+      context: .
+      dockerfile: scrapers/news_scraper/Dockerfile
+    container_name: scraper_news
+    env_file: .env
+    volumes:
+      - ./db:/app/db
+      - ./logs:/app/logs
+    restart: unless-stopped
+
+  collector_yfinance:
+    build:
+      context: .
+      dockerfile: scrapers/yfinance_collector/Dockerfile
+    container_name: collector_yfinance
+    env_file: .env
+    volumes:
+      - ./db:/app/db
+      - ./logs:/app/logs
+    restart: unless-stopped
+
+  nlp_inference:
+    build:
+      context: .
+      dockerfile: nlp/Dockerfile
+    container_name: nlp_inference
+    env_file: .env
+    volumes:
+      - ./db:/app/db
+      - ./logs:/app/logs
+    restart: unless-stopped
+
+  preprocessor:
+    build:
+      context: .
+      dockerfile: preprocessing/Dockerfile
+    container_name: preprocessor
+    env_file: .env
+    volumes:
+      - ./db:/app/db
+      - ./output:/app/output
+      - ./logs:/app/logs
+    depends_on:
+      - scraper_news
+      - collector_yfinance
+      - nlp_inference
+    restart: on-failure

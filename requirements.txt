@@ -1,0 +1,8 @@
+yfinance
+pandas
+requests
+beautifulsoup4
+lxml
+numpy
+logging
+schedule

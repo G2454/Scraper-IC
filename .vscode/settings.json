@@ -1,0 +1,6 @@
+{
+    "python.analysis.extraPaths": [
+        "./scrappers/news_scrapper",
+        "./scrappers/yfinance_collector"
+    ]
+}

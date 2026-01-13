@@ -1,0 +1,4 @@
+# Executa todos os dias às 18h (user field required for /etc/cron.d files)
+# Executa todos os dias às 18h (user field required for /etc/cron.d files)
+# Use an atomic lockdir to avoid overlapping runs. If the lock exists, skip this invocation.
+0 18 * * * root bash -c 'mkdir -p /var/lock; if mkdir /var/lock/run_all.lockdir 2>/dev/null; then echo "Starting run_all (lock acquired)" >> /var/log/cron.log 2>&1; /usr/local/bin/python /app/run_all.py >> /var/log/cron.log 2>&1; rmdir /var/lock/run_all.lockdir; else echo "Skipping run_all (previous run still active)" >> /var/log/cron.log 2>&1; fi'
